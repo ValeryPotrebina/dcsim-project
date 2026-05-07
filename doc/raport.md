@@ -1,1 +1,0 @@
-Out raport bla bla bla
