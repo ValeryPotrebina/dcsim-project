@@ -33,9 +33,10 @@ stamp-h1
 # ARE checked in and should not be ignored.
 
 # =====================================================================
-# Simulation output (regenerable)
+# Simulation output and intermediates (regenerable)
 # =====================================================================
 output/
+tmp/
 *.log
 *.csv
 *.png
