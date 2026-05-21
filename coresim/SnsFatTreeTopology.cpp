@@ -124,6 +124,7 @@ SnsFatTreeTopology::SnsFatTreeTopology(
 
 void SnsFatTreeTopology::set_up_parameter() {
     params.rtt = (6 * params.propagation_delay + ((params.mss + params.hdr_size) * 8 / this->access_bw + (params.mss + params.hdr_size) * 8 / this->core_bw) * 3) * 2;
+    params.rtt = params.rtt + 0.0000045;
     params.BDP = ceil(params.rtt * this->access_bw / (params.mss + params.hdr_size) / 8);
     // std::cout << "SnsFatTreeTopology::set_up_parameter params.rtt " << params.rtt << " params.BDP " << params.BDP <<  "\n";
     // exit(1);
@@ -430,20 +431,27 @@ Queue* SnsFatTreeTopology::get_core_next_hop(Packet *p, Queue *q) {
 double SnsFatTreeTopology::get_worst_rtt(Flow *f) {
     int num_hops = 6;
 
-    double propagation_delay;
-    propagation_delay = num_hops * params.propagation_delay; //us
-    double transmission_delay;
-    transmission_delay = (f->hdr_size) * 8.0 / (params.bandwidth / params.sns_simulation_frq_size) *
-                        num_hops * params.simulation_queue_size;
+    // double propagation_delay;
+    // propagation_delay = num_hops * params.propagation_delay; //us
+    // double transmission_delay;
+    // transmission_delay = (f->hdr_size) * 8.0 / (params.bandwidth / params.sns_simulation_frq_size) *
+    //                     num_hops * params.simulation_queue_size;
 
-    transmission_delay += ((f->mss + f->hdr_size) * 8.0 / (params.bandwidth)) * num_hops; 
+    // transmission_delay += ((f->mss + f->hdr_size) * 8.0 / (params.bandwidth)) * num_hops; 
 
-    transmission_delay += /*sim_ack*/ num_hops * ((f->hdr_size) * 8.0 / (params.bandwidth))*params.simulation_queue_size;
+    // transmission_delay += /*sim_ack*/ num_hops * ((f->hdr_size) * 8.0 / (params.bandwidth))*params.simulation_queue_size;
 
     double total;
-    double second = ((num_hops*2 / (2*params.bandwidth)) * (params.hdr_size + params.mss) * 8.0)
-                    * (params.simulation_queue_size + 2 + (params.simulation_queue_size + 3)/params.sns_simulation_frq_size);
-    total = propagation_delay*2 + second;
+    // double second = ((num_hops*2 / (2*params.bandwidth)) * (params.hdr_size + params.mss) * 8.0)
+    //                 * (params.simulation_queue_size + 2 + (params.simulation_queue_size + 3)/params.sns_simulation_frq_size);
+    // total = propagation_delay*2 + second;
+    // // std::cout<<total;
+    double alpha = params.mss / (double)params.hdr_size; // L/ℓ = 9000/64
+    double queueing_term = (2.0 * num_hops * params.hdr_size * 8.0 / params.bandwidth)
+                     * ((params.simulation_queue_size + 1) * alpha 
+                        + 2.1 * params.simulation_queue_size + 1);
+    double rtt_p = 0.0000078; // 7.8µs zero-load RTT from paper
+    total = params.rtt + queueing_term;
 
 
     // Use the pre-calculated clock drift factor from the host
@@ -454,7 +462,9 @@ double SnsFatTreeTopology::get_worst_rtt(Flow *f) {
     }
     total /= (1+(((SnsHost*)f->src)->clock_drift_factor/1e6));
     total *= params.worst_rrt_factor;
+    // std::cout<<total;
     return total; //us
+
 }
 
 double SnsFatTreeTopology::get_oracle_fct(Flow *f) {

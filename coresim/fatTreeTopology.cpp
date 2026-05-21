@@ -118,6 +118,8 @@ FatTreeTopology::FatTreeTopology(
 }
 void FatTreeTopology::set_up_parameter() {
     params.rtt = (6 * params.propagation_delay + ((params.mss + params.hdr_size) * 8 / params.bandwidth) * 6) * 2;
+    params.rtt = params.rtt + 0.0000045;
+
     // params.ctrl_pkt_rtt = (4 * params.propagation_delay + (40 * 8 / params.bandwidth) * 2.5) * 2;
     params.BDP = ceil(params.rtt * params.bandwidth / (params.mss + params.hdr_size) / 8);
     // std::cout << "BDP: " << params.BDP << std::endl;

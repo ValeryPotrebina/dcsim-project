@@ -27,11 +27,11 @@
 // 1540 / 40 = 38.5
 //#define SNS_SIMULATION_FRAQ_SIZE 38.5
 // 1580/80 = 39.5
-#define SNS_SIMULATION_FRAQ_SIZE 37.5
+// #define SNS_SIMULATION_FRAQ_SIZE 37.5
 // 4000 / 40 = 100
 // #define SNS_SIMULATION_FRAQ_SIZE 100
 // 9000 / 40 = 225 Jumbo frame
-// #define SNS_SIMULATION_FRAQ_SIZE 225
+#define SNS_SIMULATION_FRAQ_SIZE 225
 // 38.5* 4.5 (4.5 = 1400/324)
 //#define SNS_SIMULATION_QUEUE_DIV_SIZE 173
 // 324/30 (we want only 30 packets in simulation)
