@@ -23,7 +23,10 @@ https://github.com/ValeryPotrebina/dcsim-project
 ---
 
 # 1. Introduction
-edo
+The paper we choose adresses the behaviour of AI training comunications in datacenters during model training, which have a tendency to be bursty and unpredictable, causing significant packet drop and consequently harming AI training performances in terms of both Collective Completion Time (CCT) and encreasing tails of RDMA. The aim of the research is to create a basically losseless algorithm, robust to low and variable rate flows, capable of maintaining performances when scaling, which has visibility into the network and which do not requires specilesed hardware. Algorithm avaiable before this paper failed at least one of these requirements. 
+The solution proposed is to simulate the traffic sending small simulation packets (SIMs) with dedicated virtual buffers inside each node, the real packets are sended only if the simulation ack (SIM-ACK) reaches back the sender. 
+The DCSIM algorithm proved to keep near zero losses while beating in CCTs the concurent algorithms and, for big networks, not degrading as mutch as them.
+
 
 # 2. Selected Result
 Edo
