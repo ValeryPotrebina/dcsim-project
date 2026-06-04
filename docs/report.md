@@ -23,15 +23,20 @@ https://github.com/ValeryPotrebina/dcsim-project
 ---
 
 # 1. Introduction
-
+edo
 
 # 2. Selected Result
+Edo
+what we have in article
 
 # 3. Environment Setup
+Edo + docker
 
 # 4. Experiment Result
+Alankar
 
 # 5. Further Exploration
+Valeriia
 
 # 6. Reproducibility Assessment of the Paper
 
