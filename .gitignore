@@ -67,3 +67,4 @@ venv/
 # Docker (optional — keep image build cache out)
 # =====================================================================
 .dockerignore
+suggestion.md
