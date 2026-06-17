@@ -17,8 +17,8 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
     params.permutation_tm = 0;
     params.worstcase_tm = 0;
     params.incast_tm = 0;
-    params.hdr_size = 40;
-    // params.hdr_size = 64;
+    // params.hdr_size = 40;
+    params.hdr_size = 64;
     params.print_max_min_fairness = false;
     params.num_hosts = 144;
     params.debug_controller_queue = false;
@@ -47,6 +47,7 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
     params.param_b = 12;
     params.l_mult = 1;
     params.clock_drift = 0.0;
+    params.record_rtt = "";
 
     params.fct_file = ""; //for sns
     params.drop_pkt_file = ""; //for sns
@@ -72,6 +73,9 @@ void read_experiment_parameters(std::string conf_filename, uint32_t exp_type) {
         } 
         else if (key == "util_file") {
             lineStream >> params.util_file;
+        }
+        else if (key == "record_rtt_file") {
+            lineStream >> params.record_rtt;
         }
         else if (key == "drop_reorder_file") {
             lineStream >> params.drop_reorder_file;

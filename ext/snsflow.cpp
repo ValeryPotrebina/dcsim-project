@@ -472,10 +472,13 @@ void SnsFlow::receive(Packet *_p) {
             double measured_rtt = get_current_time() - this->sim_window[slot_id].time;
             // Use exponential weighted moving average (EWMA) with alpha = 0.125 (1/8)
             this->current_avg_rtt = 0.875 * this->current_avg_rtt + 0.125 * measured_rtt;
-            
-            if (params.debug_sns) {
-                std::cout << "flowid: " << this->id << " measured_rtt: " << measured_rtt * 1000000 << " us, current_avg_rtt: " << this->current_avg_rtt * 1000000 << " us\n";
+         static std::ofstream record_rtt;
+         if(params.record_rtt != "") {
+             if(!record_rtt.is_open()) {
+                record_rtt.open(params.record_rtt);
             }
+            record_rtt << this->id << " " << this->current_avg_rtt * 1000000 << " " <<measured_rtt * 1000000<<std::endl;
+         }
         }
 
         //packet_complete_time_file << (get_current_time()-this->sim_window[slot_id].time)*1000000 << " 1 \n";
@@ -484,7 +487,9 @@ void SnsFlow::receive(Packet *_p) {
         if (slot_id != -1){
             if (params.topology == "FatTree"){
                 SnsFatTreeTopology* fat_tree = dynamic_cast<SnsFatTreeTopology*>(topology);
-                time_to_be_sent = this->sim_window[slot_id].time + fat_tree->get_worst_rtt(this); // 06.09.25
+               time_to_be_sent = this->sim_window[slot_id].time + fat_tree->get_worst_rtt(this); // 06.09.25
+                //for adaptive sns
+                // time_to_be_sent = this->sim_window[slot_id].time + this->current_avg_rtt; // 06.09.25
                 if (params.debug_sns){
                     std::cout << "flowid: " << this->id << " time_to_be_sent: " <<  time_to_be_sent  << "\n";
                     std::cout << "get_worst_rtt: " << fat_tree->get_worst_rtt(this) << "\n";
