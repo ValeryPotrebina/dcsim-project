@@ -140,7 +140,7 @@ void FatTreeTopology::set_up_parameter() {
         params.token_window_timeout *= params.BDP * params.get_full_pkt_tran_delay();
         params.token_resend_timeout *= params.BDP * params.get_full_pkt_tran_delay();
         params.token_initial *= params.BDP;
-        params.token_window *= params.BDP;
+        // params.token_window *= params.BDP;
         params.token_timeout *= params.get_full_pkt_tran_delay();
 
         params.pim_iter_epoch = params.pim_beta * (this->get_control_pkt_rtt(143));

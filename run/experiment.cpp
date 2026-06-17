@@ -334,7 +334,10 @@ void run_experiment(int argc, char **argv, uint32_t exp_type) {
                 std::cerr << "Error: Host " << i << " is not a PimHost" << std::endl;
                 continue;
             }
-            host->start_new_epoch(1.0, 0);
+            //for all-to-all
+            host->start_new_epoch(0.0, 0);
+            //for default
+            // host->start_new_epoch(1.0, 0);
         }
     }
     // 

@@ -7,7 +7,10 @@ loads = [0.4, 0.6, 0.8]
 algos = {
     'dcSim': ('output/poisson_dcsim/load{}/fct.txt', 'red'),
     'dcPIM': ('output/poisson_dcpim/load{}/fct.txt', 'royalblue'),
+    'adaptive_sns': ('output/adaptive_sns/load{}/fct.txt', 'green'),
+    'async_sns': ('output/async_sns/load{}/fct.txt', 'yellow')
 }
+
 
 def stats(path):
     fcts = []
@@ -29,7 +32,7 @@ for name, (tmpl, _) in algos.items():
     data[name] = (avg, p50, p99)
 
 x = np.arange(len(loads))
-width = 0.35
+width = 0.20
 fig, axes = plt.subplots(1, 3, figsize=(15, 4.5))
 panels = [('Median FCT (typical flow)', 1),
           ('Average FCT', 0),
@@ -38,7 +41,7 @@ for ax, (title, idx) in zip(axes, panels):
     for k, (name, (tmpl, color)) in enumerate(algos.items()):
         ys = data[name][idx]
         bars = ax.bar(x + (k - 0.5) * width, ys, width, label=name, color=color)
-        ax.bar_label(bars, fmt='%.0f', fontsize=8)
+        # ax.bar_label(bars, fmt='%.0f', fontsize=8)
     ax.set_title(title)
     ax.set_xlabel('Load')
     ax.set_ylabel('FCT (us)')
@@ -47,7 +50,7 @@ for ax, (title, idx) in zip(axes, panels):
     ax.legend()
     ax.grid(axis='y', alpha=0.3)
 
-fig.suptitle('Web-search (Poisson): dcSim vs dcPIM  (N=2000 flows)')
+fig.suptitle('Web-search: dcSim vs dcPIM vs adaptive SNS vs async SNS')
 plt.tight_layout()
-plt.savefig('output/poisson_compare_bars.png')
+plt.savefig('output/poisson_compare_bars-1.png')
 print('Saved to output/poisson_compare_bars.png')

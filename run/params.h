@@ -126,6 +126,7 @@ class DCExpParams {
         double ruf_max_tokens;
         double ruf_min_tokens;
         double rtt;
+        std::string record_rtt;        
         // double ctrl_pkt_rtt;
         double ruf_max_src_num;
         bool debug_controller_queue;
